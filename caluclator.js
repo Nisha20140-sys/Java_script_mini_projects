@@ -13,10 +13,10 @@ class Calculator{
         return Number(numOne) -  Number(numTwo)
     }
     multiply(numOne,numTwo){
-        return Number(numOne) *  Number(numTwo)
+        return (Number(numOne) *  Number(numTwo)).toFixed(2);
     }
     divide(numOne,numTwo){
-        return Number(numOne) /  Number(numTwo)
+        return (Number(numOne) /  Number(numTwo)).toFixed(2);
     }
     setCurrentNum(value){
         this.currentNum += value
