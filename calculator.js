@@ -46,10 +46,12 @@ class Calculator{
     }
     undo(forNumOne){
         if(forNumOne){
-            this.numOne =  this.numOne.substring(0,(this.numOne.length-1))
+            this.prevResult =  this.prevResult.substring(0,(this.prevResult.length-1))
+            this.currentNum=0
             return;
         }
-        this.numTwo =  this.numTwo.substring(0,(this.numTwo.length-1))
+        this.prevResult =  this.prevResult.substring(0,(this.prevResult.length-1))
+        this.currentNum=0
 
     }
 }
@@ -77,13 +79,14 @@ const updateMainDisplay = () =>{
 
 const updateSecondaryDisplay = () =>{
     const secondary = document.getElementById("secondary-display")
-    const newNumArr = [...calculator.numArr]
-    const newOperation = [...calculator.operation]
+    const newNumArr = [...calculator.prevResult]
+    // const newOperation = [...calculator.operation]
     let innerHTML = ""
     while(newNumArr.length !== 0){
         const num = newNumArr.shift()
-        const operation1 = newOperation.shift()
-        innerHTML += `${num} <span class="operand">${SignObject[operation1] ? SignObject[operation1] : ""}</span>`
+        // const operation1 = newOperation.shift()
+        innerHTML += `${num} <span></span>`
+        // console.log(num)
     }
     secondary.innerHTML = innerHTML
 } 
@@ -143,12 +146,17 @@ const resultClickHandler = () =>{
     const main = document.getElementById("main-display")
     // console.log(newNumArr)
     // console.log(calculator.prevResult)
-    let result=eval(calculator.prevResult)
+    try {
+        let result=eval(calculator.prevResult)
     if (Number(result) === result && result % 1 === 0){
-        main.innerHTML = result
+        main.innerHTML = `= ${result}`
     }else{
-        main.innerHTML = result.toFixed(2);
+        main.innerHTML = `= ${result.toFixed(2)}`;
     }
+      }
+      catch(err) {
+        main.innerHTML = `math error :(`;
+      }
     // calculator.numArr=[]
     // calculator.operation=[]
 }
@@ -169,7 +177,7 @@ const actionKeyClickHandler = (action) => {
 }
 
 const undoClickHandler = () =>{
-    calculator.undo(calculator.operation ? false : true)
+    calculator.undo(calculator.prevResult)
     updateMainDisplay()
     updateSecondaryDisplay()
 }
