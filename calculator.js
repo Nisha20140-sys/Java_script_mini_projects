@@ -47,11 +47,11 @@ class Calculator{
     undo(forNumOne){
         if(forNumOne){
             this.prevResult =  this.prevResult.substring(0,(this.prevResult.length-1))
-            this.currentNum=0
+            this.clearCurrentNum()
             return;
         }
         this.prevResult =  this.prevResult.substring(0,(this.prevResult.length-1))
-        this.currentNum=0
+        this.clearCurrentNum()
 
     }
 }
