@@ -5,6 +5,8 @@ class Calculator{
         this.result = ""
         this.prevResult = ""
         this.operation = []
+        this.exc=""
+        this.store =[]
     }
     // add(numOne,numTwo){
     //     return Number(numOne) + Number(numTwo)
@@ -36,6 +38,8 @@ class Calculator{
         this.result = ""
         this.prevResult = ""
         this.operation = []
+        this.exc=""
+        this.store =[]
     }
     changeSign(forNumOne){
         if(forNumOne){
@@ -76,11 +80,12 @@ const updateMainDisplay = () =>{
     main.innerText =  calculator.currentNum || 0
    
 }
-
+var nu;
 const updateSecondaryDisplay = () =>{
     const secondary = document.getElementById("secondary-display")
     const newNumArr = [...calculator.prevResult]
     // const newOperation = [...calculator.operation]
+    nu=newNumArr.join("")
     let innerHTML = ""
     while(newNumArr.length !== 0){
         const num = newNumArr.shift()
@@ -88,8 +93,36 @@ const updateSecondaryDisplay = () =>{
         innerHTML += `${num} <span></span>`
         // console.log(num)
     }
+
     secondary.innerHTML = innerHTML
 } 
+const originalDisplay=()=>{
+    calculator.prevResult=""
+    const realArr= [...nu]
+    nu=""
+    while(realArr.length!==0){
+        const num =realArr.shift()
+        if (num ==='+'){
+            calculator.prevResult+='+'
+        }
+        else if (num ==='-'){
+            calculator.prevResult+='-'
+        }else if (num  ==='x'){
+            calculator.prevResult+='*'
+        }else if (num ==='÷'){
+            calculator.prevResult+='/'
+        }else if (num ==='%'){
+            calculator.prevResult=String(eval(calculator.prevResult+'*0.01'))
+        }else if (num ==='^'){
+            calculator.prevResult+='**'
+
+        }else{
+            calculator.prevResult+=num
+        }
+        nu+=num
+}
+}
+
 const numKeyClickHandler = (num) =>{
     calculator.prevResult+=num
     calculator.setCurrentNum(num)
@@ -104,11 +137,14 @@ const operandKeyClickHandler = (operation) =>{
     else if (operation ==='SUBTRACT'){
         calculator.prevResult+='-'
     }else if (operation ==='MULTIPLY'){
-        calculator.prevResult+='*'
+        calculator.prevResult+='x'
     }else if (operation ==='DIVIDE'){
-        calculator.prevResult+='/'
+        calculator.prevResult+='÷'
     }else if (operation ==='MODULO'){
         calculator.prevResult+='%'
+    }
+    else if (operation==="CHANGE_SIGN"){
+        calculator.prevResult+='^'
     }
     calculator.setOperation(operation)
     updateMainDisplay()
@@ -146,17 +182,28 @@ const resultClickHandler = () =>{
     const main = document.getElementById("main-display")
     // console.log(newNumArr)
     // console.log(calculator.prevResult)
+    console.log(typeof nu)
+    originalDisplay()
+    console.log(calculator.prevResult)
     try {
         let result=eval(calculator.prevResult)
-    if (Number(result) === result && result % 1 === 0){
+        calculator.currentNum=result
+    if (String(result).length>7 && Number(result) === result && result % 1 === 0){
+        main.innerHTML = `= ${result.toExponential(2)}`
+        calculator.currentNum=""
+    }
+    else if (Number(result) === result && result % 1 === 0){
         main.innerHTML = `= ${result}`
+        calculator.currentNum=""
     }else{
         main.innerHTML = `= ${result.toFixed(2)}`;
+        calculator.currentNum=""
     }
       }
       catch(err) {
         main.innerHTML = `math error :(`;
       }
+      calculator.prevResult=[...nu].join("")
     // calculator.numArr=[]
     // calculator.operation=[]
 }
@@ -165,9 +212,6 @@ const actionKeyClickHandler = (action) => {
     switch (action) {
         case "CLEAR_ALL":
             calculator.clearCalculator()
-            break;
-        case "CHANGE_SIGN":
-            calculator.changeSign(calculator.operation ? false : true)
             break;
         default:
             break;
