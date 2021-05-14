@@ -182,9 +182,7 @@ const resultClickHandler = () =>{
     const main = document.getElementById("main-display")
     // console.log(newNumArr)
     // console.log(calculator.prevResult)
-    console.log(typeof nu)
     originalDisplay()
-    console.log(calculator.prevResult.length)
     try {
     if(calculator.prevResult.length>0){
         let result=eval(calculator.prevResult)
@@ -192,13 +190,16 @@ const resultClickHandler = () =>{
     if (String(result).length>7 && Number(result) === result && result % 1 === 0){
         main.innerHTML = `= ${result.toExponential(2)}`
         calculator.currentNum=""
+        calculator.prevResult=String(result)
     }
     else if (Number(result) === result && result % 1 === 0){
         main.innerHTML = `= ${result}`
         calculator.currentNum=""
+        calculator.prevResult=String(result)
     }else{
         main.innerHTML = `= ${result.toFixed(2)}`;
         calculator.currentNum=""
+        calculator.prevResult=String(result)
         }
     }else{
         calculator.prevResult=0
@@ -206,12 +207,13 @@ const resultClickHandler = () =>{
         main.innerHTML = `= ${result}`
         calculator.prevResult=""
         calculator.currentNum= ""
+        calculator.prevResult=String(result)
     }
       }
       catch(err) {
         main.innerHTML = `math error :(`;
       }
-      calculator.prevResult=[...nu].join("")
+      console.log(calculator.prevResult)
     // calculator.numArr=[]
     // calculator.operation=[]
 }
