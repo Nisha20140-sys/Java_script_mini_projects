@@ -184,8 +184,9 @@ const resultClickHandler = () =>{
     // console.log(calculator.prevResult)
     console.log(typeof nu)
     originalDisplay()
-    console.log(calculator.prevResult)
+    console.log(calculator.prevResult.length)
     try {
+    if(calculator.prevResult.length>0){
         let result=eval(calculator.prevResult)
         calculator.currentNum=result
     if (String(result).length>7 && Number(result) === result && result % 1 === 0){
@@ -198,6 +199,13 @@ const resultClickHandler = () =>{
     }else{
         main.innerHTML = `= ${result.toFixed(2)}`;
         calculator.currentNum=""
+        }
+    }else{
+        calculator.prevResult=0
+        let result=eval(calculator.prevResult)
+        main.innerHTML = `= ${result}`
+        calculator.prevResult=""
+        calculator.currentNum= ""
     }
       }
       catch(err) {

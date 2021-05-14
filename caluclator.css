@@ -74,7 +74,10 @@ body {
 .result {
     font-size: 64px;
 }
-
+div.operand:hover {
+    background-color: mediumvioletred;
+    font-size: 40px;
+}
 .operand {
     color: #e77474;
 }
@@ -87,7 +90,6 @@ body {
     width: 100%;
     border-spacing: 16px;
 }
-
 /* tr{
     display: flex;
     width: 100%;
@@ -113,9 +115,17 @@ body {
 .action-keys {
     color: #2aedc9;
 }
+div.action-keys:hover {
+    background-color:mediumpurple;
+    font-size: 40px;
+}
 
 .num-keys {
     color: #b4a5a5;
+}
+div.num-keys:hover {
+    background-color: greenyellow;
+    font-size: 40px;
 }
 
 .flip-180 {
